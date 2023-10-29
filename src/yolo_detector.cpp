@@ -1,5 +1,6 @@
 #include "yolo_detector.h"
 #include "YoloConfig.h"
+#include "./logging.h"
 #define INPUT_NAME "images"
 #define OUTPUT_NAME "output0"
 #define TRT_FILE_SUFFIX ".cpp_trt"
@@ -9,7 +10,7 @@ using namespace nvinfer1;
 static bool ifFileExists(const char *fileName)
 {
     struct stat my_stat;
-    return (stat(FileName, &my_stat) == 0);
+    return (stat(fileName, &my_stat) == 0);
 }
 
 Yolo::Yolo()
@@ -17,7 +18,7 @@ Yolo::Yolo()
 
 }
 
-Yolo::bool Init(const std::string& strModelName, float conf_thresh)
+bool Yolo::Init(const std::string& strModelName, float conf_thresh)
 {
     mConfThresh = conf_thresh;
     std::string strTrtName = strModelName;
@@ -33,7 +34,7 @@ Yolo::bool Init(const std::string& strModelName, float conf_thresh)
     }
 }
 
-Yolo::onnxToTrt(const std::string strModelName)
+void Yolo::onnxToTrt(const std::string strModelName)
 {
     std::cout << "Start onnxToTrt ..." << std::endl;
     Logger gLogger;
@@ -101,10 +102,10 @@ Yolo::~Yolo()
 
 int main(int argc, char *argv[])
 {
-    std::string strModelName = "";
+    std::string strModelName = "/project/ev_sdk/model/best.onnx";
     float conf_thresh = 0.5;
 
-    detector = Yolo();
+    Yolo detector = Yolo();
     detector.Init(strModelName, conf_thresh);
 
     return 0;

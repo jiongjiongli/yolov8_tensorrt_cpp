@@ -15,6 +15,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 #         TutorialConfig.h
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/YoloConfig.h.in ${PROJECT_BINARY_DIR}/YoloConfig.h)
 
+
+# 使用pkg-config查找必要的依赖包
+find_package(OpenCV REQUIRED)
+
+include_directories(/usr/local/cuda-11.1/targets/x86_64-linux/include/)
+
 # TODO 3: Add an executable called Tutorial to the project
 # Hint: Be sure to specify the source file as tutorial.cxx
 # add the executable
@@ -24,3 +30,13 @@ add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/yolo_detector.cpp
 target_include_directories(${PROJECT_NAME} PUBLIC
                            "${PROJECT_BINARY_DIR}"
                            )
+
+target_link_libraries(${PROJECT_NAME}
+        ${OpenCV_LIBS}
+        # glog
+        # WKTParser
+        # jsoncpp
+        nvinfer
+        nvonnxparser
+        -L/usr/local/cuda/lib64/ -lcudart
+        )
