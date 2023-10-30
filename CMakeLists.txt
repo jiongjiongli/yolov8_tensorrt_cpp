@@ -32,11 +32,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                            )
 
 target_link_libraries(${PROJECT_NAME}
-        ${OpenCV_LIBS}
-        # glog
-        # WKTParser
-        # jsoncpp
-        nvinfer
-        nvonnxparser
-        -L/usr/local/cuda/lib64/ -lcudart
-        )
+    ${OpenCV_LIBS}
+    # glog
+    # WKTParser
+    # jsoncpp
+    nvinfer
+    nvonnxparser
+    -L/usr/local/cuda/lib64/ -lcudart
+    )

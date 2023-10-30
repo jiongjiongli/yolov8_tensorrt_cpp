@@ -15,6 +15,16 @@
 #include "opencv2/imgproc.hpp"
 
 
+size_t getSizeByDim(const nvinfer1::Dims& dims)
+{
+    size_t size = 1;
+    for (size_t i = 0; i < dims.nbDims; ++i)
+    {
+        size *= dims.d[i];
+    }
+    return size;
+}
+
 class Yolo
 {
     public:
@@ -25,6 +35,13 @@ class Yolo
     private:
         void onnxToTrt(const std::string strModelName);
         void loadTrt(const std::string strName);
+        void preprocessImage(const std::string& image_path,
+            float* gpu_input,
+            const Dims& dims);
+        void postprocessResults(float *gpu_output,
+                        const nvinfer1::Dims &dims,
+                        int batch_size);
+        void infer(const std::string& image_path);
 
     private:
         nvinfer1::ICudaEngine *m_CudaEngine;
